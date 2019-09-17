@@ -48,12 +48,14 @@ def main():
         pickle.dump(test_samples, open(split_path+'test_samples.pickle', 'wb'))
     else:
         print("Found previously created dataset...")
+        print("Exiting...")
 
-        train_samples = pickle.load(open(split_path+'train_samples.pickle', 'rb'))
-        test_samples = pickle.load(open(split_path+'test_samples.pickle', 'rb'))
+        # EXAMPLE FOR LOADING
+        # train_samples = pickle.load(open(split_path+'train_samples.pickle', 'rb'))
+        # test_samples = pickle.load(open(split_path+'test_samples.pickle', 'rb'))
 
-        X_train, y_train = zip(*train_samples)
-        X_test, y_test = zip(*test_samples)
+        # X_train, y_train = zip(*train_samples)
+        # X_test, y_test = zip(*test_samples)
 
 if __name__ == "__main__":
     main()
