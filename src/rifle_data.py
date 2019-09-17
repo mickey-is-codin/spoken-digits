@@ -99,7 +99,7 @@ def iterate_data(data_root):
         rate, wav_data = read(full_path)
 
         if wav_data.ndim > 1:
-            wav_data = wav_data[0,:]
+            wav_data = wav_data[1,:]
 
         print_wav_info(wav_data)
 
