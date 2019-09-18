@@ -8,6 +8,8 @@ SRC_SPEC=src/generate_specs.py
 SRC_SPLIT=src/train_test_split.py
 SRC_MODEL=src/model.py
 
+start: data specs split
+
 data:
 	$(DATA_FETCH)
 
