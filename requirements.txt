@@ -1,0 +1,9 @@
+numpy==1.16.4
+pandas
+seaborn
+matplotlib
+
+pillow
+opencv-python
+
+tensorflow
