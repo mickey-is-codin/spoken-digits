@@ -32,7 +32,7 @@ def main():
         print("Building image dataset...")
         for path in tqdm(os.listdir(spec_path)):
             img = cv2.imread(spec_path + path, 0)
-            #img = np.expand_dims(img, 0)
+            img = np.expand_dims(img, 3)
             X.append(img)
             y.append(np.float32(path[0]))
 

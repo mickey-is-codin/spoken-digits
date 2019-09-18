@@ -22,11 +22,24 @@ def main():
 
     print("Beginning program execution...")
 
-    model = Sequential([
-        Flatten(input_shape=(369, 496)),
-        Dense(128, activation=tf.nn.relu),
-        Dense(10, activation=tf.nn.softmax)
-    ])
+    # model = Sequential()
+
+    # model.add(Conv2D(
+    #     filters=32,
+    #     kernel_size=[2,2],
+    #     padding="same",
+    #     activation=tf.nn.relu,
+    #     data_format='channels_last'
+    # ))
+    # model.add(MaxPool2D(pool_size=[2,2], strides=2))
+
+    # model.add(Conv2D(
+    #     filters=64,
+    #     kernel_size=[2,2],
+    #     padding="same",
+    #     activation=tf.nn.relu
+    # ))
+    # model.add(MaxPool2D(pool_size=[2,2], strides=2))
 
     split_path = "data/split_data/"
 
@@ -39,13 +52,30 @@ def main():
     X_test = test_samples[0]
     y_test = test_samples[1]
 
+    print("Downloaded input shape: {}".format(X_train.shape))
+
+    train_dataset = tf.data.Dataset.from_tensor_slices((X_train, y_train))
+    test_dataset = tf.data.Dataset.from_tensor_slices((X_test, y_test))
+
+    BATCH_SIZE = 64
+    SHUFFLE_BUFFER_SIZE = 100
+
+    train_dataset = train_dataset.shuffle(SHUFFLE_BUFFER_SIZE).batch(BATCH_SIZE)
+    test_dataset = test_dataset.batch(BATCH_SIZE)
+
+    model = tf.keras.Sequential([
+        Flatten(),
+        Dense(128, activation='relu'),
+        Dense(10, activation='softmax')
+    ])
+
     model.compile(
         optimizer='adam',
         loss='sparse_categorical_crossentropy',
         metrics=['accuracy']
     )
 
-    model.fit(X_train, y_train, epochs=5, batch_size=24)
+    model.fit(train_dataset, epochs=5)
 
     test_loss, test_acc = model.evaluate(X_test, y_test)
     print('Test accuracy:', test_acc)
@@ -54,10 +84,10 @@ def main():
 
     print("Predictions:")
     for prediction_probs in predictions[0:10]:
-        print(np.argmax(predicition_probs))
+        print(np.argmax(prediction_probs))
 
     print("Actual Values:")
-    for actual in test_y[0:10]:
+    for actual in y_test[0:10]:
         print(actual)
 
 if __name__ == "__main__":
