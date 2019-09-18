@@ -29,22 +29,33 @@ def main():
         X = []
         y = []
 
-        print("Building dataset...")
+        print("Building image dataset...")
         for path in tqdm(os.listdir(spec_path)):
             img = cv2.imread(spec_path + path, 0)
             img = np.expand_dims(img, 0)
             X.append(img)
-            y.append(path[0])
+            y.append(np.float32(path[0]))
 
+        X = np.array(X)
+        y = np.array(y)
+
+        print("Normalizing dataset...")
+        np.divide(X, 255.0)
+
+        print("Splitting data into train and test datasets...")
         X_train, X_test, y_train, y_test = train_test_split(
             X, y,
             test_size=test_portion/100.0,
             random_state=42
         )
 
-        train_samples = zip(X_train, y_train)
-        test_samples  = zip(X_test, y_test)
+        print("X shape: {}".format(X.shape))
+        print("y shape: {}".format(y.shape))
 
+        train_samples = (X_train, y_train)
+        test_samples  = (X_test, y_test)
+
+        print("Saving dataset to filesystem...")
         pickle.dump(train_samples, open(split_path+'train_samples.pickle', 'wb'))
         pickle.dump(test_samples, open(split_path+'test_samples.pickle', 'wb'))
     else:
