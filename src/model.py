@@ -33,8 +33,11 @@ def main():
     train_samples = pickle.load(open(split_path+'train_samples.pickle', 'rb'))
     test_samples = pickle.load(open(split_path+'test_samples.pickle', 'rb'))
 
-    X_train, y_train = zip(*train_samples)
-    X_test, y_test = zip(*test_samples)
+    X_train = train_samples[0]
+    y_train = train_samples[1]
+
+    X_test = test_samples[0]
+    y_test = test_samples[1]
 
     model.compile(
         optimizer='adam',
@@ -42,7 +45,7 @@ def main():
         metrics=['accuracy']
     )
 
-    model.fit(X_train, y_train, epochs=5)
+    model.fit(X_train, y_train, epochs=5, batch_size=24)
 
     test_loss, test_acc = model.evaluate(X_test, y_test)
     print('Test accuracy:', test_acc)
