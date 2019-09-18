@@ -6,6 +6,7 @@ DATA_FETCH=build/get_data.sh
 SRC_DATA=src/rifle_data.py
 SRC_SPEC=src/generate_specs.py
 SRC_SPLIT=src/train_test_split.py
+SRC_MODEL=src/model.py
 
 data:
 	$(DATA_FETCH)
@@ -18,3 +19,6 @@ specs:
 
 split:
 	$(PY) $(SRC_SPLIT)
+
+model:
+	$(PY) $(SRC_MODEL)
