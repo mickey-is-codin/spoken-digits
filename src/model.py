@@ -22,25 +22,6 @@ def main():
 
     print("Beginning program execution...")
 
-    # model = Sequential()
-
-    # model.add(Conv2D(
-    #     filters=32,
-    #     kernel_size=[2,2],
-    #     padding="same",
-    #     activation=tf.nn.relu,
-    #     data_format='channels_last'
-    # ))
-    # model.add(MaxPool2D(pool_size=[2,2], strides=2))
-
-    # model.add(Conv2D(
-    #     filters=64,
-    #     kernel_size=[2,2],
-    #     padding="same",
-    #     activation=tf.nn.relu
-    # ))
-    # model.add(MaxPool2D(pool_size=[2,2], strides=2))
-
     split_path = "data/split_data/"
 
     train_samples = pickle.load(open(split_path+'train_samples.pickle', 'rb'))
@@ -63,11 +44,55 @@ def main():
     train_dataset = train_dataset.shuffle(SHUFFLE_BUFFER_SIZE).batch(BATCH_SIZE)
     test_dataset = test_dataset.batch(BATCH_SIZE)
 
+    # Basic Model
     model = tf.keras.Sequential([
         Flatten(),
         Dense(128, activation='relu'),
         Dense(10, activation='softmax')
     ])
+
+    # CNN Model
+    model = tf.keras.Sequential()
+
+    # Conv2D
+    # MaxPool2D
+    # Conv2D
+    # MaxPool2D
+    # Flatten
+    # Dense
+    # Dense
+    model.add(Conv2D(
+        filters=32,
+        kernel_size=[5,5],
+        padding="same",
+        activation=tf.nn.relu
+    ))
+    model.add(MaxPool2D(
+        pool_size=[2,2],
+        strides=2
+    ))
+
+    model.add(Conv2D(
+        filters=64,
+        kernel_size=[5,5],
+        padding="same",
+        activation=tf.nn.relu
+    ))
+    model.add(MaxPool2D(
+        pool_size=[2,2],
+        strides=2
+    ))
+
+    model.add(Flatten())
+
+    model.add(Dense(
+        units=1024,
+        activation=tf.nn.relu
+    ))
+    model.add(Dense(
+        units=10,
+        activation=tf.nn.softmax
+    ))
 
     model.compile(
         optimizer='adam',
